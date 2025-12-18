@@ -1,65 +1,125 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import Header from "./shared/Header";
+import MessageCard from "./components/message-card";
+
+const images = [
+  "/assets/landing-img-1.png",
+  "/assets/landing-img-2.png",
+  "/assets/landing-img-3.png",
+];
 
 export default function Home() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+
+      const newIndex = Math.min(images.length - 1, Math.floor(scrollY / vh));
+
+      setIndex(newIndex);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div>
+      <div className="max-w-[1200px] mx-auto">
+        <Header />
+        <div className="mt-6 p-10">
+          <div className="text-6xl font-medium mt-6 ml-6 leading-normal">
+            Find Your Perfect,
+            <br />
+            Laptop Friendly Workspace
+          </div>
+          <button
+            className="bg-white text-black py-2 px-8 rounded-[50px] ml-6 mt-6 text-xl"
+            disabled
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            Find Now!
+          </button>
+        </div>
+      </div>
+
+      {/* SCROLL STORY SECTION */}
+      <div className="h-[100vh] relative mt-20">
+        <div className="sticky top-0 h-screen max-w-[1200px] mx-auto overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={images[index]}
+              src={images[index]}
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </AnimatePresence>
         </div>
-      </main>
+      </div>
+
+      <div className="max-w-[1300px] mx-auto mt-20 flex gap-20 flex justify-center">
+        <div className="border-6 rounded-[40px] border-[#5e5e5e] bg-[#262626] max-w-[300px]">
+          <img src="/assets/card-img-sample.png" alt="" />
+          <div className="p-6">
+            <div className="font-title font-medium text-xl">
+              1. This is the thing
+            </div>
+            <div className="text-md text-[#a0a0a0] pt-2">
+              You'll see beautiful web analytics in 1 minute. Oh, and the script
+              loads super fast (4kb).
+            </div>
+          </div>
+        </div>
+        <div className="border-6 rounded-[40px] border-[#5e5e5e] bg-[#262626] max-w-[300px]">
+          <img src="/assets/card-img-sample.png" alt="" />
+          <div className="p-6">
+            <div className="font-title font-medium text-xl">
+              1. This is the thing
+            </div>
+            <div className="text-md text-[#a0a0a0] pt-2">
+              You'll see beautiful web analytics in 1 minute. Oh, and the script
+              loads super fast (4kb).
+            </div>
+          </div>
+        </div>
+        <div className="border-6 rounded-[40px] border-[#5e5e5e] bg-[#262626] max-w-[300px]">
+          <img src="/assets/card-img-sample.png" alt="" />
+          <div className="p-6">
+            <div className="font-title font-medium text-xl">
+              1. This is the thing
+            </div>
+            <div className="text-md text-[#a0a0a0] pt-2">
+              You'll see beautiful web analytics in 1 minute. Oh, and the script
+              loads super fast (4kb).
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="my-40">
+        <MessageCard />
+      </div>
+
+      <div>
+        <div className="rounded-[48px] bg-[#343434] max-w-[1300px] mx-auto flex items-center justify-center py-8 mb-16">
+          <div>
+            <div className="font-title text-3xl font-bold text-center">
+              Caff
+            </div>
+            <div className="flex gap-12 pt-8">
+              <div>Pricing</div>
+              <div>Pricing</div>
+              <div>Pricing</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
