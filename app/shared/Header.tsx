@@ -7,7 +7,7 @@ import React from "react";
  */
 const Header: React.FC = () => {
   return (
-    <div className="border-1 border-[#6F6F6F] rounded-[50px] p-4 my-8 flex justify-between items-center">
+    <div className="border-1 border-[#6F6F6F] rounded-[50px] p-4 my-8 flex justify-between items-center sticky">
       <div className="font-title text-3xl font-bold pl-4">Caff</div>
       <div className="flex gap-10">
         <div>pricing</div>

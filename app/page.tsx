@@ -1,42 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import Header from "./shared/Header";
 import MessageCard from "./components/message-card";
-
-const images = [
-  "/assets/landing-img-1.png",
-  "/assets/landing-img-2.png",
-  "/assets/landing-img-3.png",
-];
+import WiggleOnScroll from "./components/wiggle-ons-scroll";
 
 export default function Home() {
-  const [index, setIndex] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
 
-      const newIndex = Math.min(images.length - 1, Math.floor(scrollY / vh));
-
-      setIndex(newIndex);
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  // Adjust these numbers based on image width
+  const topX = useTransform(scrollYProgress, [0, 1], ["-10%", "30%"]);
+  const bottomX = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   return (
-    <div>
+    <div className="relative">
       <div className="max-w-[1200px] mx-auto">
         <Header />
         <div className="mt-6 p-10">
-          <div className="text-6xl font-medium mt-6 ml-6 leading-normal">
+          <div className="text-6xl font-medium mt-6 ml-6 leading-normal relative">
             Find Your Perfect,
             <br />
             Laptop Friendly Workspace
+            <WiggleOnScroll />
           </div>
           <button
             className="bg-white text-black py-2 px-8 rounded-[50px] ml-6 mt-6 text-xl"
@@ -47,22 +37,26 @@ export default function Home() {
         </div>
       </div>
 
-      {/* SCROLL STORY SECTION */}
-      <div className="h-[100vh] relative mt-20">
-        <div className="sticky top-0 h-screen max-w-[1200px] mx-auto overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={images[index]}
-              src={images[index]}
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-            />
-          </AnimatePresence>
+      <section ref={ref} className="relative overflow-hidden">
+        {/* STICKY VIEWPORT */}
+        <div className="sticky top-0 h-screen flex flex-col justify-center gap-16">
+          {/* TOP SCROLL RIGHT */}
+          <motion.img
+            src="/assets/scroll-1.png"
+            alt=""
+            style={{ x: topX }}
+            className="w-[100%] max-w-none"
+          />
+
+          {/* BOTTOM SCROLL LEFT */}
+          <motion.img
+            src="/assets/scroll-2.png"
+            alt=""
+            style={{ x: bottomX }}
+            className="w-[100%] max-w-none"
+          />
         </div>
-      </div>
+      </section>
 
       <div className="max-w-[1300px] mx-auto mt-20 flex gap-20 flex justify-center">
         <div className="border-6 rounded-[40px] border-[#5e5e5e] bg-[#262626] max-w-[300px]">
