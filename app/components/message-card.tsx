@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
+import Link from "next/link";
 import { useRef } from "react";
 
 export default function MessageCard() {
@@ -34,8 +35,12 @@ export default function MessageCard() {
 
         <p className="text-lg text-white/80 leading-relaxed">
           I’m Geary Audie. A software engineer working remotely.
-          <br />I built ratemycaffeine.com to solve an issue I saw firsthand,
-          how to find work friendly cafe(s) around the world.
+          <br />I built{" "}
+          <Link href="/" className="underline color-[#0091ff]">
+            ratemycaffeine.com
+          </Link>{" "}
+          to solve an issue I saw firsthand, how to find work friendly cafe(s)
+          around the world.
         </p>
 
         <p className="mt-6 text-lg font-medium">
