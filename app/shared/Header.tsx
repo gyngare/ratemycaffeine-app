@@ -3,18 +3,51 @@
 import React from "react";
 import { Tooltip } from "../components/tooltip";
 import Link from "next/link";
-/**
- * A reusable Next.js functional component.
- * @param {ComponentNameProps} props The component props.
- */
+import { motion, useScroll, useTransform } from "motion/react";
+
 const Header: React.FC = () => {
+  const { scrollY } = useScroll();
+
+  // Fade / blur after scrolling down a bit
+  const background = useTransform(
+    scrollY,
+    [0, 80],
+    ["rgba(0,0,0,0)", "rgba(20,20,20,0.6)"]
+  );
+
+  const borderColor = useTransform(
+    scrollY,
+    [0, 80],
+    ["rgba(111,111,111,1)", "rgba(111,111,111,0.4)"]
+  );
+
   return (
-    <div className="border-1 border-[#6F6F6F] rounded-[50px] px-4 my-8 flex justify-between items-center sticky">
+    <motion.div
+      style={{
+        background,
+        borderColor,
+      }}
+      className="
+        fixed top-4 left-1/2 -translate-x-1/2
+        w-full max-w-[1200px]
+        border
+        rounded-[50px]
+        px-4
+        my-8
+        flex
+        justify-between
+        items-center
+        z-50
+        backdrop-blur-md
+        transition-colors
+      "
+    >
       <div className="font-title text-3xl font-bold pl-4">
         <Link href="/">
           <img src="/assets/logo.png" alt="" />
         </Link>
       </div>
+
       <div className="flex gap-10">
         <Tooltip content="Coming soon 👀">
           <span className="cursor-pointer">Best cafe</span>
@@ -26,6 +59,7 @@ const Header: React.FC = () => {
           <span className="cursor-pointer">Contribute</span>
         </Tooltip>
       </div>
+
       <div className="mr-10">
         <Tooltip content="Coming soon 👀">
           <button
@@ -36,7 +70,7 @@ const Header: React.FC = () => {
           </button>
         </Tooltip>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

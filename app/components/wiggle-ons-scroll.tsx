@@ -6,15 +6,15 @@ import { motion, AnimatePresence } from "motion/react";
 const wiggles = [
   {
     src: "/assets/wiggle-1.png",
-    className: "absolute right-72 top-20",
+    className: "absolute right-60 top-20",
   },
   {
     src: "/assets/wiggle-2.png",
-    className: "absolute right-70 top-20",
+    className: "absolute right-60 top-20",
   },
   {
     src: "/assets/wiggle-3.png",
-    className: "absolute right-66 top-24",
+    className: "absolute right-52 top-24",
   },
 ];
 
@@ -27,7 +27,7 @@ export default function WiggleOnScroll() {
       const currentY = window.scrollY;
       const direction = currentY > lastScrollY.current ? "down" : "up";
 
-      const step = 40;
+      const step = 80;
 
       if (direction === "down" && index < wiggles.length - 1) {
         if (currentY > (index + 1) * step) {

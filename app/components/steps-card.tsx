@@ -3,7 +3,22 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
-const cards = [1, 2, 3];
+const steps = [
+  {
+    title: "Step one",
+    description: "This is you. You go to cafe, it's all noise. What do we do?",
+  },
+  {
+    title: "Step two",
+    description:
+      "Discover laptop-friendly cafes with great WiFi, power outlets, and vibes.",
+  },
+  {
+    title: "Step three",
+    description:
+      "Rate, review, and help others find the perfect place to work remotely.",
+  },
+];
 
 export default function StepsCard() {
   const ref = useRef<HTMLDivElement>(null);
@@ -18,8 +33,8 @@ export default function StepsCard() {
       <div className="h-[200vh]">
         <div className="sticky top-32">
           <div className="max-w-[1300px] mx-auto flex gap-20 justify-center">
-            {cards.map((_, i) => {
-              const start = i / cards.length;
+            {steps.map((step, i) => {
+              const start = i / steps.length;
               const middle = start + 0.15;
               const end = start + 0.3;
 
@@ -56,11 +71,10 @@ export default function StepsCard() {
                   <img src="/assets/card-img-sample.png" alt="" />
                   <div className="p-6">
                     <div className="font-title font-medium text-xl">
-                      {i + 1}. This is the thing
+                      {i + 1}. {step.title}
                     </div>
                     <div className="text-md text-[#a0a0a0] pt-2">
-                      You'll see beautiful web analytics in 1 minute. Oh, and
-                      the script loads super fast (4kb).
+                      {step.description}
                     </div>
                   </div>
                 </motion.div>

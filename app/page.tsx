@@ -7,6 +7,7 @@ import MessageCard from "./components/message-card";
 import WiggleOnScroll from "./components/wiggle-ons-scroll";
 import { Tooltip } from "./components/tooltip";
 import StepsCard from "./components/steps-card";
+import AnimatedWord from "./components/animated-word";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,16 +24,19 @@ export default function Home() {
     <div className="relative">
       <div className="max-w-[1200px] mx-auto">
         <Header />
-        <div className="mt-6 p-10">
-          <div className="text-6xl font-medium mt-6 ml-6 leading-normal relative">
-            Find Your Perfect,
+        <div className="mt-32 p-10 flex flex-col justify-center">
+          <div className="text-6xl font-medium mt-6 text-center leading-normal relative">
+            Find Your Own,
             <br />
-            Laptop Friendly Workspace
+            <span className="inline-flex items-baseline">
+              <AnimatedWord />
+              Workspace
+            </span>
             <WiggleOnScroll />
           </div>
           <Tooltip content="Coming soon 👀">
             <button
-              className="bg-white text-black py-2 px-8 rounded-[50px] ml-6 mt-8 text-xl"
+              className="bg-white text-black py-2 px-8 rounded-[50px] mx-auto mt-14 text-xl text-center"
               disabled
             >
               Find Now!
