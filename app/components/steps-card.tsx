@@ -32,7 +32,7 @@ export default function StepsCard() {
     <div ref={ref} className="mt-40">
       <div className="h-[200vh]">
         <div className="sticky top-32">
-          <div className="max-w-[1300px] mx-auto flex gap-20 justify-center">
+          <div className="max-w-[1300px] mx-auto flex flex-wrap gap-20 justify-center">
             {steps.map((step, i) => {
               const start = i / steps.length;
               const middle = start + 0.15;

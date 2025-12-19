@@ -28,8 +28,9 @@ const Header: React.FC = () => {
         borderColor,
       }}
       className="
-        fixed top-4 left-1/2 -translate-x-1/2
-        w-full max-w-[1200px]
+        fixed top-4 left-1/2
+        -translate-x-1/2 
+      w-[calc(100%-16px)] max-w-[1200px]
         border
         rounded-[50px]
         px-4
@@ -48,7 +49,7 @@ const Header: React.FC = () => {
         </Link>
       </div>
 
-      <div className="flex gap-10">
+      <div className="gap-10 hidden md:flex lg:flex">
         <Tooltip content="Coming soon 👀">
           <span className="cursor-pointer">Best cafe</span>
         </Tooltip>

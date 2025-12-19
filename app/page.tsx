@@ -25,14 +25,16 @@ export default function Home() {
       <div className="max-w-[1200px] mx-auto">
         <Header />
         <div className="mt-32 p-10 flex flex-col justify-center">
-          <div className="text-6xl font-medium mt-6 text-center leading-normal relative">
+          <div className="text-4xl lg:text-6xl font-medium mt-6 text-center leading-normal relative">
             Find Your Own,
             <br />
             <span className="inline-flex items-baseline">
               <AnimatedWord />
               Workspace
             </span>
-            <WiggleOnScroll />
+            <span className="hidden md:block lg:block">
+              <WiggleOnScroll />
+            </span>
           </div>
           <Tooltip content="Coming soon 👀">
             <button
@@ -46,9 +48,7 @@ export default function Home() {
       </div>
 
       <section ref={ref} className="relative overflow-hidden">
-        {/* STICKY VIEWPORT */}
-        <div className="sticky top-0 h-screen flex flex-col justify-center gap-16">
-          {/* TOP SCROLL RIGHT */}
+        <div className="flex flex-col my-0 gap-4 lg:my-16 lg:gap-16">
           <motion.img
             src="/assets/scroll-1.png"
             alt=""
@@ -56,7 +56,6 @@ export default function Home() {
             className="w-[100%] max-w-none"
           />
 
-          {/* BOTTOM SCROLL LEFT */}
           <motion.img
             src="/assets/scroll-2.png"
             alt=""
