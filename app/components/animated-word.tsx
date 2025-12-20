@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-const words = ["Perfect", "Cozy", "Comfy", "Personal"];
+const words = ["Perfect", "Cozy", "Comfy", "Quiet"];
 
 export default function AnimatedWord() {
   const [index, setIndex] = useState(0);

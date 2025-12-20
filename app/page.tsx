@@ -17,7 +17,6 @@ export default function Home() {
     offset: ["start end", "end start"],
   });
 
-  // Adjust these numbers based on image width
   const topX = useTransform(scrollYProgress, [0, 1], ["-10%", "30%"]);
   const bottomX = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   return (
@@ -66,11 +65,11 @@ export default function Home() {
       </section>
 
       <StepsCard />
-      <div className="my-40">
+      <div className="my-40 mx-4">
         <MessageCard />
       </div>
 
-      <div>
+      <div className="mx-4">
         <div className="rounded-[48px] bg-[#343434] max-w-[1300px] mx-auto flex items-center justify-center py-8 mb-16">
           <div>
             <div className="font-title text-3xl font-bold text-center">

@@ -5,10 +5,17 @@ import { Tooltip } from "../components/tooltip";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
 const Header: React.FC = () => {
   const { scrollY } = useScroll();
 
-  // Fade / blur after scrolling down a bit
   const background = useTransform(
     scrollY,
     [0, 80],
@@ -23,14 +30,11 @@ const Header: React.FC = () => {
 
   return (
     <motion.div
-      style={{
-        background,
-        borderColor,
-      }}
+      style={{ background, borderColor }}
       className="
         fixed top-4 left-1/2
-        -translate-x-1/2 
-      w-[calc(100%-16px)] max-w-[1200px]
+        -translate-x-1/2
+        w-[calc(100%-16px)] max-w-[1200px]
         border
         rounded-[50px]
         px-4
@@ -43,13 +47,15 @@ const Header: React.FC = () => {
         transition-colors
       "
     >
+      {/* Logo */}
       <div className="font-title text-3xl font-bold pl-4">
         <Link href="/">
-          <img src="/assets/logo.png" alt="" />
+          <img src="/assets/logo.png" alt="logo" />
         </Link>
       </div>
 
-      <div className="gap-10 hidden md:flex lg:flex">
+      {/* Desktop Nav */}
+      <div className="gap-10 hidden md:flex">
         <Tooltip content="Coming soon 👀">
           <span className="cursor-pointer">Best cafe</span>
         </Tooltip>
@@ -61,7 +67,8 @@ const Header: React.FC = () => {
         </Tooltip>
       </div>
 
-      <div className="mr-10">
+      {/* Desktop Login */}
+      <div className="mr-10 hidden lg:block">
         <Tooltip content="Coming soon 👀">
           <button
             className="bg-white text-black py-2 px-8 rounded-[50px]"
@@ -70,6 +77,42 @@ const Header: React.FC = () => {
             Login
           </button>
         </Tooltip>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className="mr-6 lg:hidden">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button aria-label="Open menu">
+              <img src="/assets/menu-icon.png" alt="menu" />
+            </button>
+          </SheetTrigger>
+
+          <SheetContent side="right" className="w-[280px] z-[100] border-l-0">
+            <SheetHeader>
+              {/* <SheetTitle className="text-left">Menu</SheetTitle> */}
+            </SheetHeader>
+
+            <div className="mt-8 ml-4 flex flex-col gap-6">
+              <Tooltip content="Coming soon 👀">
+                <span className="cursor-pointer text-lg">Best cafe</span>
+              </Tooltip>
+              <Tooltip content="Coming soon 👀">
+                <span className="cursor-pointer text-lg">Best coffee(s)</span>
+              </Tooltip>
+              <Tooltip content="Coming soon 👀">
+                <span className="cursor-pointer text-lg">Contribute</span>
+              </Tooltip>
+
+              <button
+                className="mt-6 mr-4 bg-white text-black py-3 rounded-[50px]"
+                disabled
+              >
+                Login
+              </button>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </motion.div>
   );
