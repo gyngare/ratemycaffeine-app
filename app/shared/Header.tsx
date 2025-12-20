@@ -50,7 +50,11 @@ const Header: React.FC = () => {
       {/* Logo */}
       <div className="font-title text-3xl font-bold pl-4">
         <Link href="/">
-          <img src="/assets/logo.png" alt="logo" />
+          <img
+            src="/assets/logo.png"
+            alt="logo"
+            className="w-[100px] lg:w-full"
+          />
         </Link>
       </div>
 
