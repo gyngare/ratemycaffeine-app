@@ -76,14 +76,11 @@ const Header: React.FC = () => {
 
       {/* Desktop Login */}
       <div className="mr-10 hidden lg:block">
-        <Tooltip content="Coming soon 👀">
-          <button
-            className="bg-white text-black py-2 px-8 rounded-[50px]"
-            disabled
-          >
+        <Link href="/login">
+          <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
             Login
           </button>
-        </Tooltip>
+        </Link>
       </div>
 
       {/* Mobile Menu */}
@@ -111,12 +108,11 @@ const Header: React.FC = () => {
                 <span className="cursor-pointer text-lg">Contribute</span>
               </Tooltip>
 
-              <button
-                className="mt-6 mr-4 bg-white text-black py-3 rounded-[50px]"
-                disabled
-              >
-                Login
-              </button>
+              <Link href="/login">
+                <button className="mt-6 mr-4 bg-white text-black py-2 px-8 rounded-xl hover:cursor-pointer">
+                  Login
+                </button>
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
