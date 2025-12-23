@@ -1,7 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 type Cafe = {
   placeId: string;
@@ -54,82 +59,145 @@ export default function Listing() {
     }
   };
 
+  const clearInput = () => {
+    setCity("");
+    setCafes([]);
+    setPage(1);
+    setTotalPages(0);
+  };
+
   return (
     <div>
       <header className="border-b border-[#3B3B3B]">
         <div className="max-w-[1300px] mx-auto">
-          <img src="/assets/logo.png" alt="" />
+          <Link href="/">
+            <img
+              src="/assets/logo.png"
+              alt="logo"
+              className="w-[100px] lg:w-full max-w-[175px]"
+            />
+          </Link>
         </div>
       </header>
 
       <main className="max-w-[1000px] mx-auto mt-16">
         <div className="bg-[#2A2A2A] rounded-xl shadow-lg">
           <div className="text-center flex justify-center py-4">
-            <img src="/assets/logo.png" alt="" />
+            <div className="pt-4 pb-2 text-2xl">
+              Let's Find Your Perfect Cafe!
+            </div>
           </div>
 
           {/* Search */}
           <div className="flex gap-2 justify-center mx-auto pb-12 px-4">
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="Enter city (e.g. Jakarta, Bali)"
-              className="border border-[#3B3B3B] rounded px-3 py-2 w-full max-w-[700px]"
-            />
-            <button
+            <div className="relative w-full max-w-[600px]">
+              <Input
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Enter city (e.g. Jakarta, Bali)"
+                className="
+                  pr-10
+                  py-4
+                  bg-[#1f1f1f]
+                  border-[#3B3B3B]
+                  focus-visible:ring-0
+                  focus-visible:border-[#3B3B3B]
+                "
+              />
+
+              {city && (
+                <button
+                  type="button"
+                  onClick={clearInput}
+                  className="
+                    absolute
+                    right-3
+                    top-1/2
+                    -translate-y-1/2
+                    text-gray-400
+                    hover:text-white
+                    hover:cursor-pointer
+                  "
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+
+            <Button
               onClick={() => fetchCafes(1)}
-              className="bg-white text-black px-4 py-2 rounded hover:cursor-pointer"
+              disabled={loading}
+              className="bg-white text-black hover:bg-gray-200 hover:cursor-pointer"
             >
-              Let's find some cafe!
-            </button>
+              Find my cafe!
+            </Button>
           </div>
 
-          {loading && <p className="text-center">Loading cafes…</p>}
           {error && <p className="text-center text-red-500">{error}</p>}
         </div>
       </main>
 
       {/* Results */}
-      <ul className="flex flex-wrap p-4 gap-10 justify-center mt-10 max-w-[1400px] mx-auto">
-        {cafes.map((cafe) => (
-          <li
-            key={cafe.placeId}
-            className="
-              border-6 rounded-[40px]
-              border-[#5e5e5e]
-              bg-[#262626]
-              max-w-[350px]
-              overflow-hidden
-            "
-          >
-            {cafe.imageUrl && (
-              <div className="relative w-full h-[225px]">
-                <Image
-                  src={cafe.imageUrl}
-                  alt={cafe.name}
-                  fill
-                  className="object-cover rounded-t-[30px]"
-                  sizes="350px"
-                />
-              </div>
-            )}
+      <ul className="flex flex-wrap p-4 gap-10 justify-center mt-10 max-w-[1200px] mx-auto">
+        {loading &&
+          Array.from({ length: PAGE_SIZE }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
 
-            <div className="p-6">
-              <div className="font-title font-medium text-xl">{cafe.name}</div>
-              <div className="text-md text-[#a0a0a0] pt-2">{cafe.address}</div>
+        {!loading &&
+          cafes.map((cafe) => (
+            <li
+              key={cafe.placeId}
+              className="
+                border-6 rounded-[40px]
+                border-[#5e5e5e]
+                bg-[#262626]
 
-              {cafe.googleRating && (
-                <p className="text-sm pt-2">
-                  ⭐ {cafe.googleRating} ({cafe.ratingCount})
-                </p>
+                w-[300px]
+                overflow-hidden
+              "
+            >
+              {cafe.imageUrl && (
+                <div className="relative w-full h-[225px]">
+                  <Image
+                    src={cafe.imageUrl}
+                    alt={cafe.name}
+                    fill
+                    className="object-cover rounded-t-[30px]"
+                    sizes="350px"
+                  />
+                </div>
               )}
-            </div>
-          </li>
-        ))}
+
+              <div className="p-6">
+                <div className="font-title font-medium text-xl">
+                  {cafe.name}
+                </div>
+                <div className="text-md text-[#a0a0a0] pt-2"></div>
+                <div className="text-md text-[#a0a0a0] pt-2">
+                  Quiet and cozy:{" "}
+                  <span className="font-medium text-white">83%</span> <br />
+                  Wifi reliability:{" "}
+                  <span className="font-medium text-white">83%</span> <br />
+                  Recommended cafe:{" "}
+                  <span className="font-medium text-white">83%</span> <br />
+                  Plugs availability:{" "}
+                  <span className="font-medium text-white">83%</span> <br />
+                </div>
+                <button></button>
+
+                {/* {cafe.googleRating && (
+                  <p className="text-sm pt-2">
+                    ⭐ {cafe.googleRating} ({cafe.ratingCount})
+                  </p>
+                )} */}
+              </div>
+            </li>
+          ))}
       </ul>
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {totalPages > 1 && !loading && (
         <Pagination
           page={page}
           totalPages={totalPages}
@@ -137,6 +205,30 @@ export default function Listing() {
         />
       )}
     </div>
+  );
+}
+
+/* ---------- Skeleton Card ---------- */
+
+function SkeletonCard() {
+  return (
+    <li
+      className="
+        border-6 rounded-[40px]
+        border-[#5e5e5e]
+        bg-[#262626]
+        min-w-[350px]
+        overflow-hidden
+      "
+    >
+      <Skeleton className="w-full h-[225px] rounded-t-[30px] bg-[#3B3B3B]" />
+
+      <div className="p-6 space-y-3">
+        <Skeleton className="h-6 w-3/4 bg-[#3B3B3B]" />
+        <Skeleton className="h-4 w-full bg-[#3B3B3B]" />
+        <Skeleton className="h-4 w-1/2 bg-[#3B3B3B]" />
+      </div>
+    </li>
   );
 }
 
@@ -159,14 +251,14 @@ function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
         Prev
       </button>
 
-      <span className="text-sm text-gray-400 hover:cursor-pointer">
+      <span className="text-sm text-gray-400">
         Page {page} of {totalPages}
       </span>
 
       <button
         disabled={page === totalPages}
         onClick={() => onPageChange(page + 1)}
-        className="px-4 py-2 rounded border border-[#3B3B3B] disabled:opacity-40 hover:cursor-pointer"
+        className="px-4 py-2 rounded border border-[#3B3B3B] disabled:opacity-40"
       >
         Next
       </button>

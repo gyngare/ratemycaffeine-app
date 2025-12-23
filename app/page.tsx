@@ -8,6 +8,7 @@ import WiggleOnScroll from "./components/wiggle-ons-scroll";
 import { Tooltip } from "./components/tooltip";
 import StepsCard from "./components/steps-card";
 import AnimatedWord from "./components/animated-word";
+import Link from "next/link";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,14 +36,11 @@ export default function Home() {
               <WiggleOnScroll />
             </span>
           </div>
-          <Tooltip content="Coming soon 👀">
-            <button
-              className="bg-white text-black py-2 px-8 rounded-[50px] mx-auto mt-14 text-xl text-center"
-              disabled
-            >
+          <Link href="/listing" className="text-center">
+            <button className="bg-white text-black py-2 px-8 rounded-[50px] mx-auto mt-14 text-xl hover:cursor-pointer">
               Find Now!
             </button>
-          </Tooltip>
+          </Link>
         </div>
       </div>
 
