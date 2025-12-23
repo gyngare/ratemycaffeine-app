@@ -24,11 +24,11 @@ export default function Home() {
     <div className="relative">
       <div className="max-w-[1200px] mx-auto">
         <Header />
-        <div className="mt-32 p-10 flex flex-col justify-center">
-          <div className="text-4xl lg:text-6xl font-medium mt-6 text-center leading-normal relative">
+        <div className="mt-28 p-10 flex flex-col justify-center lg:mt-32">
+          <div className="text-4xl lg:text-6xl font-semibold mt-0 text-center leading-normal relative lg:mt-6">
             Find Your Own,
             <br />
-            <span className="inline-flex items-baseline">
+            <span className="lg:inline-flex lg:items-baseline">
               <AnimatedWord />
               Workspace
             </span>
@@ -36,8 +36,11 @@ export default function Home() {
               <WiggleOnScroll />
             </span>
           </div>
-          <Link href="/listing" className="text-center">
-            <button className="bg-white text-black py-2 px-8 rounded-[50px] mx-auto mt-14 text-xl hover:cursor-pointer">
+          <Link
+            href="/listing"
+            className="text-center mb-4 mt-8 lg:mb-0 lg:mt-14"
+          >
+            <button className="bg-white text-black py-2 px-8 rounded-[50px] mx-auto text-lg hover:cursor-pointer">
               Find Now!
             </button>
           </Link>
@@ -63,17 +66,17 @@ export default function Home() {
       </section>
 
       <StepsCard />
-      <div className="my-40 mx-4">
+      <div className="mt-40 mb-20 mx-4">
         <MessageCard />
       </div>
 
       <div className="mx-4">
-        <div className="rounded-[48px] bg-[#343434] max-w-[1300px] mx-auto flex items-center justify-center py-8 mb-16">
+        <div className="rounded-[24px] bg-[#343434] max-w-[1300px] mx-auto flex items-center justify-center p-8 mb-24">
           <div>
             <div className="font-title text-3xl font-bold text-center">
               <img src="/assets/logo.png" alt="" className="mx-auto" />
             </div>
-            <div className="flex gap-12 pt-8">
+            <div className="flex gap-8 pt-8">
               <Tooltip content="Coming soon 👀">
                 <span className="cursor-pointer">Best cafe</span>
               </Tooltip>

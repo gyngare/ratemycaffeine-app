@@ -17,7 +17,10 @@ export default function MessageCard() {
   const opacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
 
   return (
-    <div ref={ref} className="my-32 max-w-[1200px] mx-auto flex justify-center">
+    <div
+      ref={ref}
+      className="my-32 max-w-[1200px] mx-auto flex justify-center overflow-x-hidden lg:overflow-x-visible"
+    >
       <motion.div
         style={{ rotate, x, opacity }}
         className="

@@ -25,19 +25,20 @@ const Header: React.FC = () => {
   const borderColor = useTransform(
     scrollY,
     [0, 80],
-    ["rgba(111,111,111,1)", "rgba(111,111,111,0.4)"]
+    ["#3b3b3b", "rgba(111,111,111,0.4)"]
   );
 
   return (
     <motion.div
       style={{ background, borderColor }}
       className="
-        fixed top-4 left-1/2
+        fixed top-0 left-1/2
         -translate-x-1/2
-        w-[calc(100%-16px)] max-w-[1200px]
+        w-[calc(100%-32px)] max-w-[1200px]
         border
         rounded-[50px]
         px-4
+        py-0
         my-8
         flex
         justify-between
@@ -45,6 +46,8 @@ const Header: React.FC = () => {
         z-50
         backdrop-blur-md
         transition-colors
+        lg:py-2
+        lg:top-4
       "
     >
       {/* Logo */}
@@ -53,7 +56,7 @@ const Header: React.FC = () => {
           <img
             src="/assets/logo.png"
             alt="logo"
-            className="w-[100px] lg:w-full"
+            className="w-[100px] lg:w-[150px]"
           />
         </Link>
       </div>
