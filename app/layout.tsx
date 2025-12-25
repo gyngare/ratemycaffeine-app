@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const fontTitle = Geist({
   variable: "--font-title",
@@ -28,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${fontTitle.variable} ${fontText.variable} antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

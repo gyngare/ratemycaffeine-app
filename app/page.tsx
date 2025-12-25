@@ -9,6 +9,7 @@ import { Tooltip } from "./components/tooltip";
 import StepsCard from "./components/steps-card";
 import AnimatedWord from "./components/animated-word";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);

@@ -1,8 +1,12 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
-  const signin = () => {
-    console.log("test");
+  const handleSignin = async () => {
+    await signIn("google", {
+      callbackUrl: "/",
+    });
   };
 
   return (
@@ -14,7 +18,10 @@ export default function Login() {
             Hi, Welcome to ratemycaffeine.com!
           </div>
           <div className="mt-4">
-            <Button className="bg-white text-black hover:bg-gray-200 hover:cursor-pointer">
+            <Button
+              className="bg-white text-black hover:bg-gray-200 hover:cursor-pointer"
+              onClick={() => handleSignin()}
+            >
               <img src="/assets/google.svg" alt="" />
               Sign up with Google
             </Button>

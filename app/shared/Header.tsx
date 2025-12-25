@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useSession } from "next-auth/react";
 
 const Header: React.FC = () => {
   const { scrollY } = useScroll();
@@ -27,6 +28,8 @@ const Header: React.FC = () => {
     [0, 80],
     ["#3b3b3b", "rgba(111,111,111,0.4)"]
   );
+
+  const { data: session, status } = useSession();
 
   return (
     <motion.div
@@ -75,13 +78,23 @@ const Header: React.FC = () => {
       </div>
 
       {/* Desktop Login */}
-      <div className="mr-10 hidden lg:block">
-        <Link href="/login">
-          <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
-            Login
-          </button>
-        </Link>
-      </div>
+      {session?.user ? (
+        <div className="mr-10 hidden lg:block">
+          <Link href="/login">
+            <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
+              {session?.user?.name}
+            </button>
+          </Link>
+        </div>
+      ) : (
+        <div className="mr-10 hidden lg:block">
+          <Link href="/login">
+            <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
+              Login
+            </button>
+          </Link>
+        </div>
+      )}
 
       {/* Mobile Menu */}
       <div className="mr-6 lg:hidden">
