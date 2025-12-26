@@ -1,13 +1,42 @@
 import { NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 
+// Rate Limiting
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // one minute
+const RATE_LIMIT_MAX = 10; // 10 Request per minute per IP
+
+const rateLimitMap = new Map<string, { count: number; startTime: number }>();
+
+function rateLimit(ip: string) {
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry) {
+    rateLimitMap.set(ip, { count: 1, startTime: Date.now() });
+
+    return true;
+  }
+
+  if (Date.now() - entry?.startTime > RATE_LIMIT_WINDOW_MS) {
+    // reset window
+    rateLimitMap.set(ip, { count: 1, startTime: Date.now() });
+
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return false;
+  }
+
+  entry.count += 1;
+  return true;
+}
+
 const GOOGLE_PLACES_URL =
   "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /* ---------------- Cached Google Places fetch ---------------- */
-
 const fetchCafesFromGoogle = unstable_cache(
   async (city: string) => {
     console.log("🔥 FETCHING FROM GOOGLE API:", city);
@@ -62,6 +91,16 @@ const fetchCafesFromGoogle = unstable_cache(
 /* ---------------- API Route ---------------- */
 
 export async function POST(req: Request) {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+
+  if (!rateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please slow down." },
+      { status: 429 }
+    );
+  }
+
   const { city } = await req.json();
   const { searchParams } = new URL(req.url);
 
