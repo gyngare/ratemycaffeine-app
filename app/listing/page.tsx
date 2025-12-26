@@ -7,6 +7,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { Tooltip } from "../components/tooltip";
+import { signOut, useSession } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 type Cafe = {
   placeId: string;
@@ -66,31 +75,109 @@ export default function Listing() {
     setTotalPages(0);
   };
 
+  const { data: session, status } = useSession();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <div>
       <header className="border-b border-[#3B3B3B]">
-        <div className="max-w-[1300px] mx-auto">
+        <div className="max-w-[1000px] mx-auto px-8 flex justify-between items-center">
           <Link href="/">
             <img
               src="/assets/logo.png"
               alt="logo"
-              className="w-[100px] lg:w-full max-w-[175px]"
+              className="w-[100px] lg:w-full max-w-[125px]"
             />
           </Link>
+          <div className="gap-10 hidden md:flex">
+            <Tooltip content="Coming soon 👀">
+              <span className="cursor-pointer text-sm">Best cafe</span>
+            </Tooltip>
+            <Tooltip content="Coming soon 👀">
+              <span className="cursor-pointer text-sm">Best coffee(s)</span>
+            </Tooltip>
+            <Tooltip content="Coming soon 👀">
+              <span className="cursor-pointer text-sm">Contribute</span>
+            </Tooltip>
+          </div>
+          {/* Desktop Login */}
+          {session?.user ? (
+            <div className="mr-10 hidden lg:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="hover:cursor-pointer bg-white rounded-[50px] text-black">
+                    {session?.user?.name}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="start">
+                  <DropdownMenuLabel onClick={() => handleSignOut()}>
+                    Logout
+                  </DropdownMenuLabel>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <div className="mr-10 hidden lg:block">
+              <Link href="/login">
+                <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
+                  Login
+                </button>
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu */}
+          <div className="mr-6 lg:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <button aria-label="Open menu">
+                  <img src="/assets/menu-icon.png" alt="menu" />
+                </button>
+              </SheetTrigger>
+
+              <SheetContent
+                side="right"
+                className="w-[280px] z-[100] border-l-0"
+              >
+                <div className="mt-8 ml-4 flex flex-col gap-6">
+                  <Tooltip content="Coming soon 👀">
+                    <span className="cursor-pointer text-lg">Best cafe</span>
+                  </Tooltip>
+                  <Tooltip content="Coming soon 👀">
+                    <span className="cursor-pointer text-lg">
+                      Best coffee(s)
+                    </span>
+                  </Tooltip>
+                  <Tooltip content="Coming soon 👀">
+                    <span className="cursor-pointer text-lg">Contribute</span>
+                  </Tooltip>
+
+                  <Link href="/login">
+                    <button className="mt-6 mr-4 bg-white text-black py-2 px-8 rounded-xl hover:cursor-pointer">
+                      Login
+                    </button>
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-[1000px] mx-auto mt-16">
-        <div className="bg-[#2A2A2A] rounded-xl shadow-lg">
+      <main className="max-w-[650px] mx-auto mt-16">
+        <div className="bg-[#2A2A2A] rounded-xl shadow-lg mx-6">
           <div className="text-center flex justify-center py-4">
-            <div className="pt-4 pb-2 text-2xl">
+            <div className="pt-4 pb-2 text-xl lg:text-2xl">
               Let's Find Your Perfect Cafe!
             </div>
           </div>
 
           {/* Search */}
-          <div className="flex gap-2 justify-center mx-auto pb-12 px-4">
-            <div className="relative w-full max-w-[600px]">
+          <div className="flex gap-2 justify-center mx-auto pb-8 px-4">
+            <div className="relative w-full max-w-[400px]">
               <Input
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
@@ -126,8 +213,8 @@ export default function Listing() {
 
             <Button
               onClick={() => fetchCafes(1)}
-              disabled={loading}
-              className="bg-white text-black hover:bg-gray-200 hover:cursor-pointer"
+              disabled={!city || loading}
+              className="bg-white text-black text-xs hover:bg-gray-200 hover:cursor-pointer"
             >
               Find my cafe!
             </Button>

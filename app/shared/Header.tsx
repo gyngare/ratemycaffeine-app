@@ -13,6 +13,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 const Header: React.FC = () => {
   const { scrollY } = useScroll();
@@ -30,6 +41,10 @@ const Header: React.FC = () => {
   );
 
   const { data: session, status } = useSession();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <motion.div
@@ -80,11 +95,18 @@ const Header: React.FC = () => {
       {/* Desktop Login */}
       {session?.user ? (
         <div className="mr-10 hidden lg:block">
-          <Link href="/login">
-            <button className="bg-white text-black py-2 px-8 rounded-[50px] hover:cursor-pointer">
-              {session?.user?.name}
-            </button>
-          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="hover:cursor-pointer bg-white rounded-[50px] text-black">
+                {session?.user?.name}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="start">
+              <DropdownMenuLabel onClick={() => handleSignOut()}>
+                Logout
+              </DropdownMenuLabel>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ) : (
         <div className="mr-10 hidden lg:block">
